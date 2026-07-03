@@ -3,11 +3,7 @@
 module control_unit(
     input logic [6:0] opcode,
     input logic [2:0] funct3,
-    input logic funct7b5,
-    input logic zero,
-    input logic [31:0] srca,
-    input logic [31:0] srcb,           
-    output logic pcsrc,         
+    input logic funct7b5,          
     output logic [2:0] resultsrc,     
     output logic memwrite,      
     output logic [3:0] alucontrol,  
@@ -19,20 +15,8 @@ module control_unit(
     );
     logic [1:0] aluop;         
     logic [12:0] controls;
-    logic takebranch;
     assign {regwrite,immsrc,alusrc,memwrite,resultsrc,branch,aluop,jump}=controls;
-    assign pcsrc=(takebranch&branch)|jump;
-    always_comb begin
-        case(funct3)
-            3'b000:takebranch=(srca==srcb);                     //beq
-            3'b001:takebranch=(srca!=srcb);                     //bne
-            3'b100:takebranch=($signed(srca)<$signed(srcb));    //blt
-            3'b101:takebranch=($signed(srca)>=$signed(srcb));    //bge
-            3'b110:takebranch=(srca<srcb);                      //bltu
-            3'b111:takebranch=(srca>=srcb);                      //bgeu
-            default:takebranch=1'b0;  
-        endcase
-    end
+
     always_comb begin
         case(opcode)
             7'b0000011: controls = 13'b1_000_1_0_001_0_00_0; // lw

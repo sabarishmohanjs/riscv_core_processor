@@ -1,32 +1,28 @@
 `timescale 1ns / 1ps
 
-module ie_im_reg(
+module if_id_reg(
     input logic clk,
     input logic reset,
-    input logic [31:0] aluresult_e,
-    input logic [31:0] wd_e,
-    input logic [4:0] a3_e,
-    input logic [31:0] pcplus4_e,
-    output logic [31:0] aluresult_m,
-    output logic [31:0] wd_m,
-    output logic [4:0] a3_m,
-    output logic [31:0] pcplus4_m
+    input logic [31:0] instr_f,
+    input logic [31:0] pc_f,
+    input logic [31:0] pcplus4_f,
+    output logic [31:0] instr_d,
+    output logic [31:0] pc_d,
+    output logic [31:0] pcplus4_d        
     );
     always@(posedge clk)
     begin
         if(reset)
         begin
-            aluresult_m<=0;
-            wd_m<=0;
-            a3_m<=0;
-            pcplus4_m<=0;
+            instr_d<=0;
+            pc_d<=0;
+            pcplus4_d<=0;
         end
         else 
         begin
-            aluresult_m<=aluresult_e;
-            wd_m<=wd_e;
-            a3_m<=a3_e;
-            pcplus4_m<=pcplus4_e;
+            instr_d<=instr_f;
+            pc_d<=pc_f;
+            pcplus4_d<=pcplus4_f;
         end
     end
 endmodule

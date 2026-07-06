@@ -129,6 +129,12 @@ module riscv(
         
     //decode
     assign a3_d=instr_d[11:7];
+    logic [4:0] rs1_d;
+    logic [4:0] rs2_d;
+    assign rs1_d=instr_d[19:15];
+    assign rs2_d=instr_d[24:20];
+    logic [4:0] rs1_e;
+    logic [4:0] rs2_e;
     
     control_unit cu(
     .opcode(instr_d[6:0]),
@@ -162,7 +168,6 @@ module riscv(
     );
 
     //execute stage
-    
     id_ie_reg de(
     .clk(clk),
     .reset(reset),
@@ -181,6 +186,8 @@ module riscv(
     .alusrc_d(alusrc_d),
     .jalr_d(jalr_d),
     .funct3_d(funct3_d),
+    .rs1_d(rs1_d),
+    .rs2_d(rs2_d),
     .jalr_e(jalr_e),
     .rd1_e(rd1_e),
     .rd2_e(rd2_e),
@@ -195,7 +202,9 @@ module riscv(
     .branch_e(branch_e),
     .alucontrol_e(alucontrol_e),
     .alusrc_e(alusrc_e),
-    .funct3_e(funct3_e)
+    .funct3_e(funct3_e),
+    .rs1_e(rs1_e),
+    .rs2_e(rs2_e)
     );
     
         
@@ -208,16 +217,48 @@ module riscv(
     .pcsrc(pcsrc_e)
     );
     
+    logic [31:0] out_fae;
+    logic [31:0] out_fbe;
+    logic [1:0] forward_ae;
+    logic [1:0] forward_be;
+    
+    //hazard unit 
+    hazard_unit hu(
+    .rs1_e(rs1_e),
+    .rs2_e(rs2_e),
+    .rd_m(a3_m),
+    .rd_w(a3_w),
+    .regwrite_m(regwrite_m),
+    .regwrite_w(regwrite_w),
+    .forward_ae(forward_ae),
+    .forward_be(forward_be)
+    );
+    
+    mux3 mux_fae(
+    .a(rd1_e),
+    .b(result_w),
+    .c(aluresult_m),
+    .sel(forward_ae),
+    .y(out_fae)
+    );
+    
+    mux3 mux_fbe(
+    .a(rd2_e),
+    .b(result_w),
+    .c(aluresult_m),
+    .sel(forward_be),
+    .y(out_fbe)
+    );
     
     mux mux_alu(
-    .a(rd2_e),
+    .a(out_fbe),
     .b(immext_e),
     .sel(alusrc_e),
     .y(srcb_e)
     );
         
     alu alu(
-    .srca(rd1_e),
+    .srca(out_fae),
     .srcb(srcb_e),
     .aluresult(aluresult_e),
     .alucontrol(alucontrol_e),
@@ -230,7 +271,7 @@ module riscv(
     .clk(clk),
     .reset(reset),
     .aluresult_e(aluresult_e),
-    .wd_e(rd2_e),
+    .wd_e(out_fbe),
     .a3_e(a3_e),
     .pcplus4_e(pcplus4_e),
     .regwrite_e(regwrite_e),

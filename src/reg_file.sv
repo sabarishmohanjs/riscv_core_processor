@@ -18,8 +18,19 @@ initial begin
     $readmemh("registers.mem",register);
 end
 
-assign rd1=(a1==5'd0)?32'b0:register[a1];
-assign rd2=(a2==5'd0)?32'b0:register[a2];
+//assign rd1=(a1==5'd0)?32'b0:register[a1];
+//assign rd2=(a2==5'd0)?32'b0:register[a2];
+
+//write first read during second half of the cycle 
+assign rd1 =
+    (a1 == 0) ? 32'b0 :
+    (we3 && (a1 == a3) && (a3 != 0)) ? wd3 :
+    register[a1];
+
+assign rd2 =
+    (a2 == 0) ? 32'b0 :
+    (we3 && (a2 == a3) && (a3 != 0)) ? wd3 :
+    register[a2];
 
 always_ff@(posedge clk)begin
     if(we3 && (a3!=5'd0)) // x0 is hardwired to zero

@@ -18,6 +18,8 @@ module id_ie_reg(
     input logic alusrc_d,
     input logic [2:0] funct3_d,
     input logic jalr_d,
+    input logic [4:0] rs1_d,
+    input logic [4:0] rs2_d,
     output logic jalr_e,
     output logic [31:0] rd1_e,
     output logic [31:0] rd2_e,
@@ -32,7 +34,9 @@ module id_ie_reg(
     output logic branch_e,
     output logic [3:0] alucontrol_e,
     output logic alusrc_e,
-    output logic [2:0] funct3_e
+    output logic [2:0] funct3_e,
+    output logic [4:0] rs1_e,
+    output logic [4:0] rs2_e
     );
     
     always@(posedge clk)
@@ -54,6 +58,8 @@ module id_ie_reg(
             alusrc_e<=0;
             funct3_e<=0;
             jalr_e<=0;
+            rs1_e<=0;
+            rs2_e<=0;
         end
         else
         begin
@@ -72,6 +78,8 @@ module id_ie_reg(
             alusrc_e<=alusrc_d;
             funct3_e<=funct3_d;
             jalr_e<=jalr_d;
+            rs1_e<=rs1_d;
+            rs2_e<=rs2_d;
         end
     end
 endmodule

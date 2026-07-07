@@ -88,6 +88,16 @@ module riscv(
     logic [31:0] immext_w;
     logic [31:0] auipc_result_w;
     
+    //hazard signals
+    //forwarding
+    logic [31:0] out_fae;
+    logic [31:0] out_fbe;
+    logic [1:0] forward_ae;
+    logic [1:0] forward_be;
+    //stalling
+    logic stall_f;
+    logic stall_d;
+    logic flush_e;
     
     assign auipc_result_e=pc_e+immext_e;
     assign pcplus4_f=pc_f+32'd4;
@@ -108,7 +118,8 @@ module riscv(
     .pcnext(pcnext_f),
     .clk(clk),
     .pc(pc_f),
-    .reset(reset)
+    .reset(reset),
+    .stall_f(stall_f)
     );
     
     instr_mem im(
@@ -122,6 +133,7 @@ module riscv(
     .instr_f(instr_f),
     .pc_f(pc_f),
     .pcplus4_f(pcplus4_f),
+    .stall_d(stall_d),
     .instr_d(instr_d),
     .pc_d(pc_d),
     .pcplus4_d(pcplus4_d)        
@@ -184,6 +196,7 @@ module riscv(
     .branch_d(branch_d),
     .alucontrol_d(alucontrol_d),
     .alusrc_d(alusrc_d),
+    .flush_e(flush_e),
     .jalr_d(jalr_d),
     .funct3_d(funct3_d),
     .rs1_d(rs1_d),
@@ -217,21 +230,24 @@ module riscv(
     .pcsrc(pcsrc_e)
     );
     
-    logic [31:0] out_fae;
-    logic [31:0] out_fbe;
-    logic [1:0] forward_ae;
-    logic [1:0] forward_be;
-    
+
     //hazard unit 
     hazard_unit hu(
     .rs1_e(rs1_e),
     .rs2_e(rs2_e),
     .rd_m(a3_m),
     .rd_w(a3_w),
+    .rs1_d(rs1_d),
+    .rs2_d(rs2_d),
+    .rd_e(a3_e),
     .regwrite_m(regwrite_m),
     .regwrite_w(regwrite_w),
+    .resultsrc_e0(resultsrc_e[0]),
     .forward_ae(forward_ae),
-    .forward_be(forward_be)
+    .forward_be(forward_be),
+    .stall_f(stall_f),
+    .stall_d(stall_d),
+    .flush_e(flush_e)
     );
     
     mux3 mux_fae(

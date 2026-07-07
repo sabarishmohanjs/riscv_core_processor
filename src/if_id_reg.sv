@@ -6,6 +6,7 @@ module if_id_reg(
     input logic [31:0] instr_f,
     input logic [31:0] pc_f,
     input logic [31:0] pcplus4_f,
+    input logic stall_d,
     output logic [31:0] instr_d,
     output logic [31:0] pc_d,
     output logic [31:0] pcplus4_d        
@@ -18,7 +19,7 @@ module if_id_reg(
             pc_d<=0;
             pcplus4_d<=0;
         end
-        else 
+        else if(!stall_d)
         begin
             instr_d<=instr_f;
             pc_d<=pc_f;

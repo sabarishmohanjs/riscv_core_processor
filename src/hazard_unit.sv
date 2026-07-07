@@ -5,10 +5,17 @@ module hazard_unit(
     input logic [4:0] rs2_e,
     input logic [4:0] rd_m,
     input logic [4:0] rd_w,
+    input logic [4:0] rs1_d,
+    input logic [4:0] rs2_d,
+    input logic [4:0] rd_e,
     input logic regwrite_m,
     input logic regwrite_w,
+    input logic resultsrc_e0,
     output logic [1:0] forward_ae,
-    output logic [1:0] forward_be
+    output logic [1:0] forward_be,
+    output logic stall_f,
+    output logic stall_d,
+    output logic flush_e
     );
     logic lw_stall;
      
@@ -36,7 +43,14 @@ module hazard_unit(
         end
         else
             forward_be=2'b00;
-               
+        
+        //load instruction
+        //stalling
+        //bubble
+        lw_stall=(resultsrc_e0)&((rs1_d==rd_e)||(rs2_d==rd_e));
+        stall_f=lw_stall;
+        stall_d=lw_stall; 
+        flush_e=lw_stall;        
     end
     
 endmodule

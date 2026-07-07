@@ -20,6 +20,7 @@ module id_ie_reg(
     input logic jalr_d,
     input logic [4:0] rs1_d,
     input logic [4:0] rs2_d,
+    input logic flush_e,
     output logic jalr_e,
     output logic [31:0] rd1_e,
     output logic [31:0] rd2_e,
@@ -41,7 +42,7 @@ module id_ie_reg(
     
     always@(posedge clk)
     begin
-        if(reset)
+        if(reset || flush_e) //flushing after the stalling
         begin
             rd1_e<=0;
             rd2_e<=0;

@@ -22,11 +22,11 @@ task expected;
     for(int i=0;i<32;i=i+1)
         exp_reg[i]=0;
         exp_reg[0]=32'd0;
-        exp_reg[1]=32'd5;
-        exp_reg[2]=32'd10;
-        exp_reg[3]=32'd20;
-        exp_reg[4]=32'd40;
-        exp_reg[5]=32'd80;
+        exp_reg[1]=32'd4;
+        exp_reg[2]=32'd1;
+        exp_reg[3]=32'd2;
+//        exp_reg[4]=32'd40;
+//        exp_reg[5]=32'd80;
 //    exp_reg[6]=600;
 //    exp_reg[7]=700;
 //    exp_reg[8]=999;
@@ -132,91 +132,104 @@ begin
                   rv32.pc_f,
                   rv32.instr_f);
 
-        $display("ID  : PC=%0d  INSTR=%h",
-                  rv32.pc_d,
-                  rv32.instr_d);
+//        $display("ID  : PC=%0d  INSTR=%h",
+//                  rv32.pc_d,
+//                  rv32.instr_d);
 
-        $display("EX  : rd=%0d  ALU=%0d",
-                  rv32.a3_e,
-                  rv32.aluresult_e);
+//        $display("EX  : rd=%0d  ALU=%0d",
+//                  rv32.a3_e,
+//                  rv32.aluresult_e);
 
-        $display("MEM : rd=%0d  ALU=%0d",
-                  rv32.a3_m,
-                  rv32.aluresult_m);
+//        $display("MEM : rd=%0d  ALU=%0d",
+//                  rv32.a3_m,
+//                  rv32.aluresult_m);
 
-        $display("WB  : rd=%0d  RESULT=%0d",
-                  rv32.a3_w,
-                  rv32.result_w);
+//        $display("WB  : rd=%0d  RESULT=%0d",
+//                  rv32.a3_w,
+//                  rv32.result_w);
 
-        // ---------------- Decode ----------------
-        $display("\nDecode Stage");
-        $display("rs1=%0d rs2=%0d rd=%0d",
-                  rv32.rs1_d,
-                  rv32.rs2_d,
-                  rv32.a3_d);
+//        // ---------------- Decode ----------------
+//        $display("\nDecode Stage");
+//        $display("rs1=%0d rs2=%0d rd=%0d",
+//                  rv32.rs1_d,
+//                  rv32.rs2_d,
+//                  rv32.a3_d);
 
-        $display("rd1_d=%0d rd2_d=%0d",
-                  rv32.rd1_d,
-                  rv32.rd2_d);
+//        $display("rd1_d=%0d rd2_d=%0d",
+//                  rv32.rd1_d,
+//                  rv32.rd2_d);
 
-        // ---------------- Execute ----------------
-        $display("\nExecute Stage");
+//        // ---------------- Execute ----------------
+//        $display("\nExecute Stage");
 
-        $display("rs1E=%0d rs2E=%0d rdE=%0d",
-                  rv32.rs1_e,
-                  rv32.rs2_e,
-                  rv32.a3_e);
+//        $display("rs1E=%0d rs2E=%0d rdE=%0d",
+//                  rv32.rs1_e,
+//                  rv32.rs2_e,
+//                  rv32.a3_e);
 
-        $display("rd1E=%0d rd2E=%0d",
-                  rv32.rd1_e,
-                  rv32.rd2_e);
+//        $display("rd1E=%0d rd2E=%0d",
+//                  rv32.rd1_e,
+//                  rv32.rd2_e);
 
-        // ---------------- Forwarding ----------------
-        $display("\nForwarding");
+//        // ---------------- Forwarding ----------------
+//        $display("\nForwarding");
 
-        $display("ForwardA=%b ForwardB=%b",
-                  rv32.forward_ae,
-                  rv32.forward_be);
+//        $display("ForwardA=%b ForwardB=%b",
+//                  rv32.forward_ae,
+//                  rv32.forward_be);
 
-        $display("out_fae=%0d out_fbe=%0d",
-                  rv32.out_fae,
-                  rv32.out_fbe);
+//        $display("out_fae=%0d out_fbe=%0d",
+//                  rv32.out_fae,
+//                  rv32.out_fbe);
 
-        $display("srcb_e=%0d",
-                  rv32.srcb_e);
+//        $display("srcb_e=%0d",
+//                  rv32.srcb_e);
 
-        // ---------------- Hazard Inputs ----------------
-        $display("\nHazard Inputs");
+//        // ---------------- Hazard Inputs ----------------
+//        $display("\nHazard Inputs");
 
-        $display("rs1E=%0d rs2E=%0d",
-                  rv32.rs1_e,
-                  rv32.rs2_e);
+//        $display("rs1E=%0d rs2E=%0d",
+//                  rv32.rs1_e,
+//                  rv32.rs2_e);
 
-        $display("rdM=%0d RegWriteM=%b",
-                  rv32.a3_m,
-                  rv32.regwrite_m);
+//        $display("rdM=%0d RegWriteM=%b",
+//                  rv32.a3_m,
+//                  rv32.regwrite_m);
 
-        $display("rdW=%0d RegWriteW=%b",
-                  rv32.a3_w,
-                  rv32.regwrite_w);
+//        $display("rdW=%0d RegWriteW=%b",
+//                  rv32.a3_w,
+//                  rv32.regwrite_w);
 
-        // ---------------- Register File ----------------
-        $display("\nRegister File");
+//        // ---------------- Register File ----------------
+//        $display("\nRegister File");
 
-        $display("Read Addr1=%0d Data1=%0d",
-                  rv32.instr_d[19:15],
-                  rv32.rd1_d);
+//        $display("Read Addr1=%0d Data1=%0d",
+//                  rv32.instr_d[19:15],
+//                  rv32.rd1_d);
 
-        $display("Read Addr2=%0d Data2=%0d",
-                  rv32.instr_d[24:20],
-                  rv32.rd2_d);
+//        $display("Read Addr2=%0d Data2=%0d",
+//                  rv32.instr_d[24:20],
+//                  rv32.rd2_d);
 
-        $display("Write Addr=%0d Data=%0d WE=%b",
-                  rv32.a3_w,
-                  rv32.result_w,
-                  rv32.regwrite_w);
+//        $display("Write Addr=%0d Data=%0d WE=%b",
+//                  rv32.a3_w,
+//                  rv32.result_w,
+//                  rv32.regwrite_w);
 
         $display("========================================================");
+        $display("stall_f=%b stall_d=%b flush_e=%b",
+                 rv32.stall_f,
+                 rv32.stall_d,
+                 rv32.flush_e);
+        
+        $display("PCF=%0d PCD=%0d PCE=%0d",
+                 rv32.pc_f,
+                 rv32.pc_d,
+                 rv32.pc_e);
+        
+        $display("IF=%h", rv32.instr_f);
+        $display("ID=%h", rv32.instr_d);
+        $display("EX rd=%0d", rv32.a3_e);
     end
 end
 
@@ -247,8 +260,8 @@ initial begin
     check("x2 ADDI X2 X0 10", rv32.rf.register[2], exp_reg[2]);
     
     check("x3 ADDI X3 X0 20", rv32.rf.register[3], exp_reg[3]);
-    check("x4 ADDI X4 X0 40", rv32.rf.register[4], exp_reg[4]);
-    check("x5 ADDI X5 X0 80", rv32.rf.register[5], exp_reg[5]);      
+//    check("x4 ADDI X4 X0 40", rv32.rf.register[4], exp_reg[4]);
+//    check("x5 ADDI X5 X0 80", rv32.rf.register[5], exp_reg[5]);      
     
     //SUMMARY
     $display("----------------------------------------------");

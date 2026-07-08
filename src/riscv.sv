@@ -100,10 +100,12 @@ module riscv(
     logic flush_e;
     //control hazard 
     logic flush_d;
+    //auipc jalr
+    logic [31:0] result_m;
     
     assign auipc_result_e=pc_e+immext_e;
     assign pcplus4_f=pc_f+32'd4;
-    assign jalrtarget=rd1_e+immext_e;
+    assign jalrtarget = (out_fae + immext_e) & 32'hFFFFFFFE;
     assign jalr_d=(instr_d[6:0]==7'b1100111);  //jalr_e since all executions happen in IE stage  
     assign pctarget_e=immext_e+pc_e;
     assign jumptarget=(jalr_e)?jalrtarget:pctarget_e;
@@ -258,7 +260,7 @@ module riscv(
     mux3 mux_fae(
     .a(rd1_e),
     .b(result_w),
-    .c(aluresult_m),
+    .c(result_m),
     .sel(forward_ae),
     .y(out_fae)
     );
@@ -266,7 +268,7 @@ module riscv(
     mux3 mux_fbe(
     .a(rd2_e),
     .b(result_w),
-    .c(aluresult_m),
+    .c(result_m),
     .sel(forward_be),
     .y(out_fbe)
     );
@@ -310,7 +312,15 @@ module riscv(
     .immext_m(immext_m),
     .auipc_result_m(auipc_result_m)
     );
-    
+    mux5 mem_result_mux(
+    .a(aluresult_m),
+    .b(rd_m),
+    .c(pcplus4_m),
+    .d(immext_m),
+    .e(auipc_result_m),
+    .sel(resultsrc_m),
+    .y(result_m)
+    );
     data_mem dm(
     .clk(clk),
     .a(aluresult_m),

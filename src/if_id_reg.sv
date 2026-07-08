@@ -7,13 +7,14 @@ module if_id_reg(
     input logic [31:0] pc_f,
     input logic [31:0] pcplus4_f,
     input logic stall_d,
+    input logic flush_d,
     output logic [31:0] instr_d,
     output logic [31:0] pc_d,
     output logic [31:0] pcplus4_d        
     );
     always@(posedge clk)
     begin
-        if(reset)
+        if(reset || flush_d)
         begin
             instr_d<=0;
             pc_d<=0;

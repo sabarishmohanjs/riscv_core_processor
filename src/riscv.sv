@@ -98,6 +98,8 @@ module riscv(
     logic stall_f;
     logic stall_d;
     logic flush_e;
+    //control hazard 
+    logic flush_d;
     
     assign auipc_result_e=pc_e+immext_e;
     assign pcplus4_f=pc_f+32'd4;
@@ -134,6 +136,7 @@ module riscv(
     .pc_f(pc_f),
     .pcplus4_f(pcplus4_f),
     .stall_d(stall_d),
+    .flush_d(flush_d),
     .instr_d(instr_d),
     .pc_d(pc_d),
     .pcplus4_d(pcplus4_d)        
@@ -223,8 +226,8 @@ module riscv(
         
     branching_unit branch(
     .funct3(funct3_e),
-    .srca(rd1_e),
-    .srcb(rd2_e),  //rd2_e always
+    .srca(out_fae),
+    .srcb(out_fbe),  //rd2_e always
     .branch(branch_e),
     .jump(jump_e),           
     .pcsrc(pcsrc_e)
@@ -243,11 +246,13 @@ module riscv(
     .regwrite_m(regwrite_m),
     .regwrite_w(regwrite_w),
     .resultsrc_e0(resultsrc_e[0]),
+    .pcsrc_e(pcsrc_e),
     .forward_ae(forward_ae),
     .forward_be(forward_be),
     .stall_f(stall_f),
     .stall_d(stall_d),
-    .flush_e(flush_e)
+    .flush_e(flush_e),
+    .flush_d(flush_d)
     );
     
     mux3 mux_fae(

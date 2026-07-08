@@ -22,13 +22,13 @@ task expected;
     for(int i=0;i<32;i=i+1)
         exp_reg[i]=0;
         exp_reg[0]=32'd0;
-        exp_reg[1]=32'd4;
-        exp_reg[2]=32'd1;
-        exp_reg[3]=32'd2;
-//        exp_reg[4]=32'd40;
-//        exp_reg[5]=32'd80;
-//    exp_reg[6]=600;
-//    exp_reg[7]=700;
+        exp_reg[1]=32'd5;
+        exp_reg[2]=32'd5;
+        exp_reg[3]=32'd0;
+        exp_reg[4]=32'd0;
+        exp_reg[5]=32'd3;
+//        exp_reg[6]=32'd0;
+//        exp_reg[7]=32'd99;
 //    exp_reg[8]=999;
 //    exp_reg[9]=25;
 //    exp_reg[10]=-5;
@@ -230,6 +230,26 @@ begin
         $display("IF=%h", rv32.instr_f);
         $display("ID=%h", rv32.instr_d);
         $display("EX rd=%0d", rv32.a3_e);
+        $display("\nBranch");
+
+        $display("branch_e=%b jump_e=%b",
+                  rv32.branch_e,
+                  rv32.jump_e);
+        
+        $display("pcsrc_e=%b",
+                  rv32.pcsrc_e);
+        
+        $display("pctarget=%0d",
+                  rv32.pctarget_e);
+        $display("\nHazard");
+
+        $display("stall_f=%b stall_d=%b",
+                  rv32.stall_f,
+                  rv32.stall_d);
+        
+        $display("flush_d=%b flush_e=%b",
+                  rv32.flush_d,
+                  rv32.flush_e);
     end
 end
 
@@ -247,7 +267,7 @@ initial begin
     rst=0;
     
     $display("----------------------------------------------");
-    $display("RISCV SINGLE CYCLE PROCESSOR TESTBENCH");
+    $display("RISCV PIPELINE PROCESSOR TESTBENCH");
     $display("----------------------------------------------");
     
     repeat(15)@(posedge clk);
@@ -256,13 +276,14 @@ initial begin
     
     check("x0", rv32.rf.register[0], exp_reg[0]);
     
-    check("x1 ADDI X1 X0 5", rv32.rf.register[1], exp_reg[1]);
-    check("x2 ADDI X2 X0 10", rv32.rf.register[2], exp_reg[2]);
+    check("x1 ", rv32.rf.register[1], exp_reg[1]);
+    check("x2 ", rv32.rf.register[2], exp_reg[2]);
     
-    check("x3 ADDI X3 X0 20", rv32.rf.register[3], exp_reg[3]);
-//    check("x4 ADDI X4 X0 40", rv32.rf.register[4], exp_reg[4]);
-//    check("x5 ADDI X5 X0 80", rv32.rf.register[5], exp_reg[5]);      
-    
+    check("x3 ", rv32.rf.register[3], exp_reg[3]);
+    check("x4 ", rv32.rf.register[4], exp_reg[4]);
+    check("x5 ", rv32.rf.register[5], exp_reg[5]);      
+//    check("x6 ", rv32.rf.register[6], exp_reg[6]);  
+//    check("x7 ", rv32.rf.register[7], exp_reg[7]);  
     //SUMMARY
     $display("----------------------------------------------");
     $display("TEST SUMMARY");

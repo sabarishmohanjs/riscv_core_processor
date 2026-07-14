@@ -1,4 +1,13 @@
 `timescale 1ns / 1ps
+/*------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Project Title       : RISC-V 5 stage pipelined processor design
+Module name         : hazard_unit.sv
+File Description    : This file implements the hazard detection and forwarding unit for the pipelined RISC-V processor. 
+It resolves read-after-write (RAW) data hazards by generating forwarding control signals that select the latest operand values from the Memory or 
+Write-Back stages. The module also detects load-use hazards, introducing pipeline stalls and inserting bubbles when forwarding alone 
+cannot resolve the dependency. Additionally, it handles control hazards by generating pipeline flush signals after taken branch and jump instructions, 
+ensuring correct program execution.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 module hazard_unit(
     input logic [4:0] rs1_e,

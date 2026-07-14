@@ -1,4 +1,12 @@
 `timescale 1ns / 1ps
+/*------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Project Title       : RISC-V 5 stage pipelined processor design
+Module name         : reg_file.sv
+File Description    : This file implements the 32 × 32-bit register file for the pipelined RISC-V processor. It provides two combinational read ports 
+and one synchronous write port, enabling simultaneous reading of two source operands and writing of a destination register. 
+Register x0 is hardwired to zero and cannot be modified. The module also includes write-first (write-through) behavior, allowing newly written data to be forwarded 
+to the read ports within the same clock cycle, thereby avoiding read-after-write hazards during simulation.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 //32 bit 32 registers
 module reg_file(

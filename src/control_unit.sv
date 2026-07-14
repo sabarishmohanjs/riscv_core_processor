@@ -1,4 +1,12 @@
 `timescale 1ns / 1ps
+/*------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Project Title       : RISC-V 5 stage pipelined processor design
+Module name         : control_unit.sv
+File Description    : This file implements the main control unit of the pipelined RISC-V processor. It decodes the instruction opcode, 
+along with the funct3 and funct7 fields when required, to generate the control signals for the datapath. The module determines the instruction type
+and produces signals for register write, memory write, ALU operand selection, immediate generation, result selection, branch and jump control, 
+as well as the ALU operation code. It supports the RV32I instructions including load, store, arithmetic, logical, branch, JAL, JALR, LUI, and AUIPC.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 module control_unit(
     input logic [6:0] opcode,

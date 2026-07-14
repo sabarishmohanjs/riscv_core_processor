@@ -1,5 +1,13 @@
 `timescale 1ns / 1ps
 
+/*------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Project Title       : RISC-V 5 stage pipelined processor design
+Module name         : if_id_reg.sv
+File Description    : This file implements the IF/ID pipeline register, which transfers the fetched instruction, program counter (PC), and PC + 4 
+from the Instruction Fetch (IF) stage to the Instruction Decode (ID) stage. It supports pipeline stalling to hold its current contents during data hazards and 
+flushing to clear the register during reset or control hazards, preventing incorrect instructions from progressing through the pipeline.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
 module if_id_reg(
     input logic clk,
     input logic reset,

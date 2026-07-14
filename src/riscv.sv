@@ -1,74 +1,93 @@
 `timescale 1ns / 1ps
+/*------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Project Title       : RISC-V 5 stage pipelined processor design
+Module name         : riscv.sv
+File Description    : This file implements the top-level module of a 32-bit five-stage pipelined RISC-V processor
+compliant with the RV32I instruction set. It integrates all major datapath components, pipeline registers, control logic, 
+hazard handling mechanisms, and memory interfaces to execute instructions in a pipelined manner.
 
+The processor is organized into the standard Fetch (IF), Decode (ID), Execute (EX), Memory (MEM), and Write-Back (WB) stages. 
+Each stage is separated by dedicated pipeline registers that store both data and control signals, enabling multiple instructions to be processed concurrently.
+
+The module instantiates the instruction memory, program counter, register file, immediate generator, control unit, ALU, branch unit, data memory,
+forwarding multiplexers, hazard detection unit, and pipeline registers. It also implements the next program counter logic for sequential execution,
+branching, jumping, and JALR instructions.
+
+To ensure correct pipeline execution, the design incorporates:
+
+---> Data forwarding from the Memory and Write-Back stages to resolve most Read-After-Write (RAW) hazards.
+---> Load-use hazard detection, which stalls the Fetch and Decode stages and inserts a bubble into the Execute stage when forwarding alone cannot resolve a dependency.
+---> Control hazard handling, which flushes incorrect instructions following taken branches and jump instructions.
+---> Support for AUIPC, JAL, and JALR instructions through dedicated target address generation and result selection logic.
+
+The write-back stage selects the final result from multiple sources, including the ALU result, data memory output, PC + 4, immediate value, 
+and AUIPC result, before updating the destination register.
+
+Overall, this module serves as the central integration point for the pipelined RISC-V processor, coordinating instruction flow, control signal propagation, 
+hazard management, and communication between all functional units to achieve efficient instruction execution.
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 module riscv(
-    input logic clk,
-    input logic reset
+    input logic clk,        //clock signal
+    input logic reset       //sync async reset signal
     );        
-//    logic [31:0] pctarget;
-//    logic [31:0] pcplus4;    
-//    logic pcsrc;    
-//    logic [31:0] instr;
-//    logic [31:0] readdata;    
-//    logic [31:0] srca;    
-//    logic [31:0] writedata;      
-//    logic zero;
-//    logic [31:0] auipc_result;
-    logic [31:0] jalrtarget;
-    logic jalr_d;
-    logic jalr_e; 
-    logic [31:0] jumptarget;
+    
+    logic [31:0] jalrtarget;    //compute target address for JALR instr
+    logic jalr_d;               //jalr opcode detection in decode stage              
+    logic jalr_e;               //jalr flag pipelined into Execute stage
+    logic [31:0] jumptarget;    //final branch jump target
     
     
     //fetch stage registers
-    logic [31:0] instr_f;
-    logic [31:0] pc_f;
-    logic [31:0] pcplus4_f;    
-    logic [31:0] instr_d;
-    logic [31:0] pc_d;
-    logic [31:0] pcplus4_d;  
-    logic [31:0] pcnext_f;
+    logic [31:0] instr_f;       //instr fetch in fetch stage
+    logic [31:0] pc_f;          //current pc in fetch stage
+    logic [31:0] pcplus4_f;     //add pc+4 in fetch stage
+    logic [31:0] instr_d;       //instr latched in decode stage
+    logic [31:0] pc_d;          //current pc latched in in decode stage
+    logic [31:0] pcplus4_d;     //pc+4 latched in in decode stage
+    logic [31:0] pcnext_f;      //next pc value fed into the pc ff
     
     //decode stage
-    logic regwrite_d;
-    logic [31:0] rd1_d;
-    logic [31:0] rd2_d;
-    logic [31:0] immext_d;
-    logic [2:0] immsrc_d;
-    logic [2:0] resultsrc_d;
-    logic memwrite_d;
-    logic jump_d;
-    logic branch_d; 
-    logic [3:0] alucontrol_d;
-    logic alusrc_d;
-    logic [4:0] a3_d;
-    logic [2:0] funct3_d;
+    logic regwrite_d;           //reg write enable in decode stage
+    logic [31:0] rd1_d;         //read data 1 in decode stage
+    logic [31:0] rd2_d;         //read data 2 in decode stage
+    logic [31:0] immext_d;      //sign extended immediate in decode stage
+    logic [2:0] immsrc_d;       //imm ext select signal in decode stage
+    logic [2:0] resultsrc_d;    //write back result select in decode stage 
+    logic memwrite_d;           //dm write enable in decode stage
+    logic jump_d;               //jump instr select in decode stage
+    logic branch_d;             //branch instr select in decode stage
+    logic [3:0] alucontrol_d;   //alu operation select in decode stage
+    logic alusrc_d;             //alu srcb select in decode stage
+    logic [4:0] a3_d;           //write register content or destination register in decode stage
+    logic [2:0] funct3_d;       //funct3 field in decode stage
     assign funct3_d=instr_d[14:12];
     
-    //execute stage
-    logic [31:0] srcb_e;
-    logic [31:0] aluresult_e;
-    logic pcsrc_e;
-    logic [31:0] pctarget_e;
-    logic [31:0] rd1_e;
-    logic [31:0] rd2_e;
-    logic [31:0] pc_e;
-    logic [4:0]  a3_e;
-    logic [31:0] immext_e;
-    logic [31:0] pcplus4_e;
-    logic regwrite_e;
+    //execute stage             // in the execute stage
+    logic [31:0] srcb_e;        //srcb alu operand B 
+    logic [31:0] aluresult_e;   //alu output
+    logic pcsrc_e;              //pc source select
+    logic [31:0] pctarget_e;    //pc relative branch or jump
+    logic [31:0] rd1_e;         //read data 1
+    logic [31:0] rd2_e;         //read data 2
+    logic [31:0] pc_e;          //current pc
+    logic [4:0]  a3_e;          //destination register
+    logic [31:0] immext_e;      //sign extended immediate
+    logic [31:0] pcplus4_e;     //pc+4 value
+    logic regwrite_e;           
     logic [2:0] resultsrc_e;
     logic memwrite_e;
     logic jump_e;
     logic branch_e;
     logic [3:0] alucontrol_e;
     logic alusrc_e;
-    logic zero_e;
-    logic [31:0] auipc_result_e;
-    logic [2:0] funct3_e;
-    //memory stage
-    logic [31:0] aluresult_m;
-    logic [31:0] wd_m;
-    logic [31:0] result_w;
+    logic zero_e;               //zero flag from alu
+    logic [31:0] auipc_result_e;//auipc result 
+    logic [2:0] funct3_e;       
+    
+    //memory stage              //in memory stage
+    logic [31:0] aluresult_m;   
+    logic [31:0] wd_m;          //write data to data memory
+    logic [31:0] result_w;      //final write back result
     logic [4:0] a3_m;
     logic [31:0] pcplus4_m;
     logic regwrite_m;
@@ -78,9 +97,9 @@ module riscv(
     logic [31:0] immext_m;
     logic [31:0] auipc_result_m;
     
-    //write back stage
-    logic [31:0] rd_w;
-    logic [4:0] a3_w;
+    //write back stage          //in write back stage
+    logic [31:0] rd_w;          //data memory read result
+    logic [4:0] a3_w;       
     logic [31:0] aluresult_w;
     logic [31:0] pcplus4_w;
     logic regwrite_w;
@@ -90,18 +109,18 @@ module riscv(
     
     //hazard signals
     //forwarding
-    logic [31:0] out_fae;
-    logic [31:0] out_fbe;
-    logic [1:0] forward_ae;
-    logic [1:0] forward_be;
+    logic [31:0] out_fae;       //forward operand A into alu
+    logic [31:0] out_fbe;       //forward operand B into alu
+    logic [1:0] forward_ae;     //forwarding select for alu operand A
+    logic [1:0] forward_be;     //forwarding select for alu operand B
     //stalling
-    logic stall_f;
-    logic stall_d;
-    logic flush_e;
+    logic stall_f;              //stall fetch stage 
+    logic stall_d;              //stall decode stage
+    logic flush_e;              //flush execute stage
     //control hazard 
-    logic flush_d;
+    logic flush_d;              //flush decode stage on taken branch or jump 
     //auipc jalr
-    logic [31:0] result_m;
+    logic [31:0] result_m;      
     
     assign auipc_result_e=pc_e+immext_e;
     assign pcplus4_f=pc_f+32'd4;
@@ -111,6 +130,7 @@ module riscv(
     assign jumptarget=(jalr_e)?jalrtarget:pctarget_e;
     //fetch stage   
     
+    // selects next PC: sequential (PC+4) or taken branch/jump target
     mux mux_pc(
     .a(pcplus4_f),
     .b(jumptarget),
@@ -118,6 +138,7 @@ module riscv(
     .y(pcnext_f)
     );
     
+    // program counter register
     pc_ff instr_pc(
     .pcnext(pcnext_f),
     .clk(clk),
@@ -126,11 +147,13 @@ module riscv(
     .stall_f(stall_f)
     );
     
+    // instruction memory (combinational read)
     instr_mem im(
     .a(pc_f),
     .rd(instr_f)
     );
 
+    // IF/ID pipeline register
     if_id_reg   fd(
     .clk(clk),
     .reset(reset),
@@ -153,6 +176,7 @@ module riscv(
     logic [4:0] rs1_e;
     logic [4:0] rs2_e;
     
+    // main control unit: decodes opcode/funct3/funct7 into control signals
     control_unit cu(
     .opcode(instr_d[6:0]),
     .funct3(instr_d[14:12]),
@@ -166,7 +190,8 @@ module riscv(
     .jump(jump_d),         
     .branch(branch_d)       
     );
-
+    
+    // register file: 2 read ports (Decode), 1 write port (Writeback)
     reg_file rf(
     .a1(instr_d[19:15]),
     .a2(instr_d[24:20]),
@@ -178,6 +203,7 @@ module riscv(
     .rd2(rd2_d)
     );
     
+    // immediate generator: extends immediate per format
     extend imm(
     .instr(instr_d),
     .immext(immext_d),
@@ -185,6 +211,7 @@ module riscv(
     );
 
     //execute stage
+    // ID/EX pipeline register
     id_ie_reg de(
     .clk(clk),
     .reset(reset),
@@ -225,7 +252,7 @@ module riscv(
     .rs2_e(rs2_e)
     );
     
-        
+    // resolves branch/jump outcome (pcsrc_e) using forwarded operands
     branching_unit branch(
     .funct3(funct3_e),
     .srca(out_fae),
@@ -237,6 +264,7 @@ module riscv(
     
 
     //hazard unit 
+     // detects data hazards (forwarding), load-use hazard (stall), and control hazard (flush)
     hazard_unit hu(
     .rs1_e(rs1_e),
     .rs2_e(rs2_e),
@@ -257,6 +285,7 @@ module riscv(
     .flush_d(flush_d)
     );
     
+     // forwarding mux for ALU operand A
     mux3 mux_fae(
     .a(rd1_e),
     .b(result_w),
@@ -265,6 +294,7 @@ module riscv(
     .y(out_fae)
     );
     
+    // forwarding mux for ALU operand B
     mux3 mux_fbe(
     .a(rd2_e),
     .b(result_w),
@@ -273,6 +303,7 @@ module riscv(
     .y(out_fbe)
     );
     
+    // ALU source B select
     mux mux_alu(
     .a(out_fbe),
     .b(immext_e),
@@ -280,6 +311,7 @@ module riscv(
     .y(srcb_e)
     );
         
+    // arithmetic logic unit
     alu alu(
     .srca(out_fae),
     .srcb(srcb_e),
@@ -290,6 +322,7 @@ module riscv(
     
     
     //memory stage 
+    // EX/MEM pipeline register
     ie_im_reg em(
     .clk(clk),
     .reset(reset),
@@ -312,6 +345,8 @@ module riscv(
     .immext_m(immext_m),
     .auipc_result_m(auipc_result_m)
     );
+    
+    // selects Memory-stage forwarding value
     mux5 mem_result_mux(
     .a(aluresult_m),
     .b(rd_m),
@@ -321,6 +356,8 @@ module riscv(
     .sel(resultsrc_m),
     .y(result_m)
     );
+    
+    // data memory (load/store)
     data_mem dm(
     .clk(clk),
     .a(aluresult_m),
@@ -331,7 +368,7 @@ module riscv(
     
     //write back stage
   
-    
+    // MEM/WB pipeline register
     im_iwb_reg memwb(
     .clk(clk),
     .reset(reset),
@@ -353,6 +390,7 @@ module riscv(
     .auipc_result_w(auipc_result_w)
     );
     
+    // final writeback result select
     mux5 mux_dm(
     .a(aluresult_w),
     .b(rd_w),

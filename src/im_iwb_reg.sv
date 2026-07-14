@@ -1,4 +1,12 @@
 `timescale 1ns / 1ps
+/*------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Project Title       : RISC-V 5 stage pipelined processor design
+Module name         : im_iwb_reg.sv
+File Description    : This file implements the MEM/WB pipeline register, which transfers the data memory output, ALU result, destination register 
+address, immediate value, PC + 4, AUIPC result, and associated control signals from the Memory (MEM) stage to the Write-Back (WB) stage. 
+It synchronizes the final datapath and control information required for selecting the write-back result and updating the register file, 
+while supporting synchronous reset by clearing all stored values.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 module im_iwb_reg(
     input logic clk,

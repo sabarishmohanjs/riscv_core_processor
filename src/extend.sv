@@ -1,5 +1,12 @@
 `timescale 1ns / 1ps
-
+/*------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Project Title       : RISC-V 5 stage pipelined processor design
+Module name         : extend.sv
+File Description    : This file implements the immediate generator for the pipelined RISC-V processor. It extracts and sign-extends 
+the immediate field from a 32-bit instruction based on the instruction format specified by the immsrc control signal. 
+The module supports R-type, I-type, S-type, B-type, J-type, and U-type instruction formats, generating a 32-bit immediate value for use in 
+ALU operations, branch target calculation, jump instructions, and upper immediate instructions such as LUI and AUIPC.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 module extend(
     input logic [31:0] instr,

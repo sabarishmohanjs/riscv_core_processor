@@ -1,4 +1,12 @@
 `timescale 1ns / 1ps
+/*------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Project Title       : RISC-V 5 stage pipelined processor design
+Module name         : id_ie_reg.sv
+File Description    : This file implements the ID/EX pipeline register, which transfers data operands, immediate values, program counter information, 
+register addresses, and control signals from the Instruction Decode (ID) stage to the Execute (EX) stage. It preserves both datapath and control information 
+required for instruction execution while supporting pipeline flushing during reset or hazard conditions by clearing all stored values, 
+thereby inserting a bubble into the pipeline.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 module id_ie_reg(
     input logic clk,

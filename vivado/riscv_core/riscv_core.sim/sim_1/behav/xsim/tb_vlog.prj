@@ -1,0 +1,26 @@
+# compile verilog/system verilog design source files
+sv xil_defaultlib  --include "../../../../../../../../vivado/2025.2/Vivado/data/rsb/busdef" \
+"../../../../../../src/alu.sv" \
+"../../../../../../src/branching_unit.sv" \
+"../../../../../../src/control_unit.sv" \
+"../../../../../../src/data_mem.sv" \
+"../../../../../../src/extend.sv" \
+"../../../../../../src/hazard_unit.sv" \
+"../../../../../../src/id_ie_reg.sv" \
+"../../../../../../src/ie_im_reg.sv" \
+"../../../../../../src/if_id_reg.sv" \
+"../../../../../../src/im_iwb_reg.sv" \
+"../../../../../../src/instr_mem.sv" \
+"../../../../../../src/mux.sv" \
+"../../../../../../src/mux3.sv" \
+"../../../../../../src/mux5.sv" \
+"../../../../../../src/pc_ff.sv" \
+"../../../../../../src/reg_file.sv" \
+"../../../../../../src/riscv.sv" \
+"../../../../../../sim/riscv_tb.sv" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

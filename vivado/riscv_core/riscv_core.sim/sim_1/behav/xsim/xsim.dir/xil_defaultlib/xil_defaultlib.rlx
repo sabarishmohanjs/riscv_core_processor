@@ -1,0 +1,23 @@
+0.7
+2020.2
+Nov 14 2025
+19:37:27
+D:/hdlbits/riscv_pipelined_processor/sim/riscv_tb.sv,1783529949,systemVerilog,,,,tb,,uvm,../../../../../../../../vivado/2025.2/Vivado/data/rsb/busdef,,,,,
+D:/hdlbits/riscv_pipelined_processor/src/alu.sv,1784052258,systemVerilog,,D:/hdlbits/riscv_pipelined_processor/src/branching_unit.sv,,alu,,uvm,../../../../../../../../vivado/2025.2/Vivado/data/rsb/busdef,,,,,
+D:/hdlbits/riscv_pipelined_processor/src/branching_unit.sv,1784052269,systemVerilog,,D:/hdlbits/riscv_pipelined_processor/src/control_unit.sv,,branching_unit,,uvm,../../../../../../../../vivado/2025.2/Vivado/data/rsb/busdef,,,,,
+D:/hdlbits/riscv_pipelined_processor/src/control_unit.sv,1784052277,systemVerilog,,D:/hdlbits/riscv_pipelined_processor/src/data_mem.sv,,control_unit,,uvm,../../../../../../../../vivado/2025.2/Vivado/data/rsb/busdef,,,,,
+D:/hdlbits/riscv_pipelined_processor/src/data_mem.sv,1784052510,systemVerilog,,D:/hdlbits/riscv_pipelined_processor/src/extend.sv,,data_mem,,uvm,../../../../../../../../vivado/2025.2/Vivado/data/rsb/busdef,,,,,
+D:/hdlbits/riscv_pipelined_processor/src/extend.sv,1784052302,systemVerilog,,D:/hdlbits/riscv_pipelined_processor/src/hazard_unit.sv,,extend,,uvm,../../../../../../../../vivado/2025.2/Vivado/data/rsb/busdef,,,,,
+D:/hdlbits/riscv_pipelined_processor/src/hazard_unit.sv,1784052313,systemVerilog,,D:/hdlbits/riscv_pipelined_processor/src/id_ie_reg.sv,,hazard_unit,,uvm,../../../../../../../../vivado/2025.2/Vivado/data/rsb/busdef,,,,,
+D:/hdlbits/riscv_pipelined_processor/src/id_ie_reg.sv,1784052321,systemVerilog,,D:/hdlbits/riscv_pipelined_processor/src/ie_im_reg.sv,,id_ie_reg,,uvm,../../../../../../../../vivado/2025.2/Vivado/data/rsb/busdef,,,,,
+D:/hdlbits/riscv_pipelined_processor/src/ie_im_reg.sv,1784052333,systemVerilog,,D:/hdlbits/riscv_pipelined_processor/src/if_id_reg.sv,,ie_im_reg,,uvm,../../../../../../../../vivado/2025.2/Vivado/data/rsb/busdef,,,,,
+D:/hdlbits/riscv_pipelined_processor/src/if_id_reg.sv,1784052353,systemVerilog,,D:/hdlbits/riscv_pipelined_processor/src/im_iwb_reg.sv,,if_id_reg,,uvm,../../../../../../../../vivado/2025.2/Vivado/data/rsb/busdef,,,,,
+D:/hdlbits/riscv_pipelined_processor/src/im_iwb_reg.sv,1784052364,systemVerilog,,D:/hdlbits/riscv_pipelined_processor/src/instr_mem.sv,,im_iwb_reg,,uvm,../../../../../../../../vivado/2025.2/Vivado/data/rsb/busdef,,,,,
+D:/hdlbits/riscv_pipelined_processor/src/instr_mem.sv,1784052374,systemVerilog,,D:/hdlbits/riscv_pipelined_processor/src/mux.sv,,instr_mem,,uvm,../../../../../../../../vivado/2025.2/Vivado/data/rsb/busdef,,,,,
+D:/hdlbits/riscv_pipelined_processor/src/mux.sv,1784052382,systemVerilog,,D:/hdlbits/riscv_pipelined_processor/src/mux3.sv,,mux,,uvm,../../../../../../../../vivado/2025.2/Vivado/data/rsb/busdef,,,,,
+D:/hdlbits/riscv_pipelined_processor/src/mux3.sv,1784052472,systemVerilog,,D:/hdlbits/riscv_pipelined_processor/src/mux5.sv,,mux3,,uvm,../../../../../../../../vivado/2025.2/Vivado/data/rsb/busdef,,,,,
+D:/hdlbits/riscv_pipelined_processor/src/mux5.sv,1784052421,systemVerilog,,D:/hdlbits/riscv_pipelined_processor/src/pc_ff.sv,,mux5,,uvm,../../../../../../../../vivado/2025.2/Vivado/data/rsb/busdef,,,,,
+D:/hdlbits/riscv_pipelined_processor/src/pc_ff.sv,1784052405,systemVerilog,,D:/hdlbits/riscv_pipelined_processor/src/reg_file.sv,,pc_ff,,uvm,../../../../../../../../vivado/2025.2/Vivado/data/rsb/busdef,,,,,
+D:/hdlbits/riscv_pipelined_processor/src/reg_file.sv,1784052435,systemVerilog,,D:/hdlbits/riscv_pipelined_processor/src/riscv.sv,,reg_file,,uvm,../../../../../../../../vivado/2025.2/Vivado/data/rsb/busdef,,,,,
+D:/hdlbits/riscv_pipelined_processor/src/riscv.sv,1784052442,systemVerilog,,D:/hdlbits/riscv_pipelined_processor/sim/riscv_tb.sv,,riscv,,uvm,../../../../../../../../vivado/2025.2/Vivado/data/rsb/busdef,,,,,
+D:/hdlbits/riscv_pipelined_processor/vivado/riscv_core/riscv_core.sim/sim_1/behav/xsim/glbl.v,1756381829,verilog,,,,glbl,,uvm,,,,,,

@@ -1,0 +1,11 @@
+# Generated Vivado project (rebuilt by vivado/create_project.tcl)
+vivado/riscv_core/
+
+# Vivado junk
+*.jou
+*.log
+*.str
+.Xil/
+*.wdb
+xsim.dir/
+webtalk*

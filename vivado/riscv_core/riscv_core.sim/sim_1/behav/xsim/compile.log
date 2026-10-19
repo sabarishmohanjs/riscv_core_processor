@@ -1,0 +1,38 @@
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/hdlbits/riscv_pipelined_processor/src/alu.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module alu
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/hdlbits/riscv_pipelined_processor/src/branching_unit.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module branching_unit
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/hdlbits/riscv_pipelined_processor/src/control_unit.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module control_unit
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/hdlbits/riscv_pipelined_processor/src/data_mem.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module data_mem
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/hdlbits/riscv_pipelined_processor/src/extend.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module extend
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/hdlbits/riscv_pipelined_processor/src/hazard_unit.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module hazard_unit
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/hdlbits/riscv_pipelined_processor/src/id_ie_reg.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module id_ie_reg
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/hdlbits/riscv_pipelined_processor/src/ie_im_reg.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ie_im_reg
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/hdlbits/riscv_pipelined_processor/src/if_id_reg.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module if_id_reg
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/hdlbits/riscv_pipelined_processor/src/im_iwb_reg.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module im_iwb_reg
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/hdlbits/riscv_pipelined_processor/src/instr_mem.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module instr_mem
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/hdlbits/riscv_pipelined_processor/src/mux.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module mux
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/hdlbits/riscv_pipelined_processor/src/mux3.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module mux3
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/hdlbits/riscv_pipelined_processor/src/mux5.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module mux5
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/hdlbits/riscv_pipelined_processor/src/pc_ff.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module pc_ff
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/hdlbits/riscv_pipelined_processor/src/reg_file.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module reg_file
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/hdlbits/riscv_pipelined_processor/src/riscv.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module riscv
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/hdlbits/riscv_pipelined_processor/sim/riscv_tb.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module tb
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/hdlbits/riscv_pipelined_processor/vivado/riscv_core/riscv_core.sim/sim_1/behav/xsim/glbl.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module glbl
